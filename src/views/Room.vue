@@ -1,8 +1,13 @@
 <template>
   <div class="room" v-if="room">
-    <div class="background" :style="{
-		      backgroundImage: `url(${room.situations?.[0] ? imgFolder + room.situations[0].background : ''})`
-    }">
+    <div
+      class="background"
+      :style="{
+        backgroundImage: `url(${
+          room.situations?.[0] ? imgFolder + room.situations[0].background : ''
+        })`,
+      }"
+    >
       <img
         :src="room.situations?.[0] ? imgFolder + room.situations[0].sprite : ''"
         alt="sprite"
@@ -10,7 +15,12 @@
       />
     </div>
 
-    <DialogBox :message="currentMessage" @next="handleNext" v-if="showDialog" :dialogues="roomDialogues" />
+    <DialogBox
+      :message="currentMessage"
+      @next="handleNext"
+      v-if="showDialog"
+      :dialogues="roomDialogues"
+    />
     <QuestionBox
       :situation="currentSituation"
       @answer="handleAnswer"
@@ -38,18 +48,18 @@ export default {
     const showDialog = ref(true);
     const currentMessage = ref("Chargement...");
     const currentSituation = ref(null);
-	  const imgFolder = ref("")
+    const imgFolder = ref("");
     const roomDialogues = computed(() => {
       return dialogues["welcome"];
     });
 
-      // `url(${room.situations[0].background ? room.situations[0].background : ''})`
+    // `url(${room.situations[0].background ? room.situations[0].background : ''})`
 
     onMounted(() => {
-      console.log("jsonData:", jsonData);
+      console.log("api key", import.meta.env.OPENAI_API_KEY);
       try {
         room.value = jsonData.rooms[roomIndex.value];
-		    imgFolder.value = jsonData.imagesFolder;
+        imgFolder.value = jsonData.imagesFolder;
         currentSituation.value = room.value.situations[0];
         console.log("room:", room.value);
         currentMessage.value = "Bienvenue dans cette room !";
@@ -77,7 +87,7 @@ export default {
     return {
       room,
       imgFolder,
-		  roomDialogues,
+      roomDialogues,
       currentMessage,
       currentSituation,
       showDialog,
