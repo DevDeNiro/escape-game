@@ -58,9 +58,10 @@ export default {
 			} else if (currentIndex.value < props.dialogues.length - 1) {
 				currentIndex.value++;
 				displayLength.value = 1;
-				props.noMoreDialogAction();
 				// Appel récursif pour passer au message suivant
 				advanceDialogue();
+			} else {
+				props.noMoreDialogAction();
 			}
 		};
 
