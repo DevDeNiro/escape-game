@@ -93,48 +93,49 @@ export default {
 			}
 		};
 
-		const nextRoom = () => {
-			setCurrentRoomId(Number(paramId) + 1)
-			console.log("test goToNextSituation() nextRoom")
-			currentSituationId.value = 0;
-			const nextId = Number(paramId) + 1
-			router.push("/room/" + nextId)
-		};
+    const nextRoom = () => {
+      setCurrentRoomId(Number(paramId) + 1);
+      console.log("test goToNextSituation() nextRoom");
+      currentSituationId.value = 0;
+      const nextId = Number(paramId) + 1;
+      router.push("/room/" + nextId);
+    };
 
-		const noMoreDialogAction = () => {
-			showDialog.value = false;
-		};
+    const noMoreDialogAction = () => {
+      showDialog.value = false;
+    };
 
-		return {
-			imgFolder,
-			currentRoom: currentRoom(paramId),
-			roomAnswers,
-			currentSituation,
-			hasNoMoreSituation,
-			showDialog,
-			nextRoom,
-			handleNext,
-			handleAnswer,
-			noMoreDialogAction,
-		};
-	},
+    return {
+      imgFolder,
+      currentRoom: currentRoom(paramId),
+      roomAnswers,
+      currentMessage,
+      currentSituation,
+      hasNoMoreSituation,
+      showDialog,
+      nextRoom,
+      handleNext,
+      handleAnswer,
+      noMoreDialogAction,
+    };
+  },
 };
 </script>
 
 <style scoped>
 .background {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background-size: cover;
-	background-position: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .sprite {
-	position: absolute;
-	height: 300px;
-	bottom: 150px;
-	left: 50%;
-	transform: translateX(-50%);
+  position: absolute;
+  height: 300px;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
