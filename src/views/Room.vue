@@ -6,28 +6,29 @@
 			 }"
 		>
 			<img
-				:src="currentSituation ? imgFolder + currentSituation.sprite : ''"
-				alt="sprite"
-				class="sprite"
-				v-if="showDialog"
+					:src="currentSituation ? imgFolder + sprite : ''"
+					alt="sprite"
+					class="sprite"
+					v-if="showDialog"
 			/>
 		</div>
 		<DialogBox
-			@next="handleNext"
-			v-if="showDialog"
-			:dialogues="currentRoom.dialog"
-			:no-more-dialog-action="noMoreDialogAction" />
+				@next="handleNext"
+				@get-id="handleChangeSprite"
+				v-if="showDialog"
+				:dialogues="currentRoom.dialog"
+				:no-more-dialog-action="noMoreDialogAction" />
 		<QuestionBox
-			:theme="currentRoom.theme"
-			:situation="currentSituation"
-			:has-no-more-situation="hasNoMoreSituation"
-			@next-room="nextRoom"
-			:room-answers="roomAnswers"
-			v-else
+				:theme="currentRoom.theme"
+				:situation="currentSituation"
+				:has-no-more-situation="hasNoMoreSituation"
+				@next-room="nextRoom"
+				:room-answers="roomAnswers"
+				v-else
 		>
 			<Answers
-				:situation="currentSituation"
-				@answer="handleAnswer"
+					:situation="currentSituation"
+					@answer="handleAnswer"
 			/>
 		</QuestionBox>
 	</div>
@@ -60,6 +61,9 @@ export default {
 		const currentSituation = computed(() => {
 			return currentRoom(paramId).situations[currentSituationId.value];
 		});
+
+		const sprite = ref("");
+
 		const roomAnswers = computed(() => {
 			return userAnswers.filter((answer) => Number(answer.roomId) === Number(currentRoomId));
 		})
@@ -70,6 +74,7 @@ export default {
 		onMounted(() => {
 			try {
 				imgFolder.value = jsonData.imagesFolder;
+				sprite.value = currentSituation.value.sprite
 			} catch (err) {
 				console.error("Erreur lors de la manipulation des données:", err);
 			}
@@ -93,49 +98,71 @@ export default {
 			}
 		};
 
-    const nextRoom = () => {
-      setCurrentRoomId(Number(paramId) + 1);
-      console.log("test goToNextSituation() nextRoom");
-      currentSituationId.value = 0;
-      const nextId = Number(paramId) + 1;
-      router.push("/room/" + nextId);
-    };
+		const handleChangeSprite = (index) => {
+			console.log(index + 1)
+			switch (Number(index) + 1) {
+				case 3:
+					sprite.value = "/sprites/serieux.png";
+					break;
+				case 4:
+					sprite.value = "/sprites/wink.png";
+					break;
+				case 6:
+				case 7:
+					sprite.value = "/sprites/colere.png";
+					break;
+				case 8:
+					sprite.value = "/sprites/wink.png";
+					break;
+				default:
+					sprite.value = currentSituation.value.sprite
+			}
+		}
 
-    const noMoreDialogAction = () => {
-      showDialog.value = false;
-    };
+		const nextRoom = () => {
+			setCurrentRoomId(Number(paramId) + 1)
+			console.log("test goToNextSituation() nextRoom")
+			currentSituationId.value = 0;
+			const nextId = Number(paramId) + 1
+			router.push("/room/" + nextId)
+		};
 
-    return {
-      imgFolder,
-      currentRoom: currentRoom(paramId),
-      roomAnswers,
-      currentMessage,
-      currentSituation,
-      hasNoMoreSituation,
-      showDialog,
-      nextRoom,
-      handleNext,
-      handleAnswer,
-      noMoreDialogAction,
-    };
-  },
+		const noMoreDialogAction = () => {
+			showDialog.value = false;
+		};
+
+		return {
+			imgFolder,
+			currentRoom: currentRoom(paramId),
+			roomAnswers,
+			currentSituation,
+			sprite,
+			hasNoMoreSituation,
+			showDialog,
+			nextRoom,
+			handleNext,
+			handleAnswer,
+			noMoreDialogAction,
+			handleChangeSprite
+		};
+	},
 };
 </script>
 
 <style scoped>
 .background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: center;
 }
 
 .sprite {
-  position: absolute;
-  height: 300px;
-  bottom: 150px;
-  left: 50%;
-  transform: translateX(-50%);
+	position: absolute;
+	height: 300px;
+	bottom: 150px;
+	left: 50%;
+	transform: translateX(-50%);
 }
 </style>
