@@ -22,10 +22,10 @@ const router = createRouter({
   history: createWebHistory(),
   routes: routes,
 });
-//
-// router.beforeEach((to, from, next) => {
-//   if (to.name === "Room" && to.params.id === "3") next({name: "Home"});
-//   else next();
-// });
+
+router.beforeEach((to, from, next) => {
+  if (to.name === "Results" && !from.path.includes("room/")) next({name: "Home"});
+  else next();
+});
 
 export default router;
