@@ -13,7 +13,6 @@
 			/>
 		</div>
 		<DialogBox
-			:message="currentMessage"
 			@next="handleNext"
 			v-if="showDialog"
 			:dialogues="currentRoom.dialog"
@@ -55,7 +54,6 @@ export default {
 		const router = useRouter();
 		const paramId = route.params.id;
 		const showDialog = ref(true);
-		const currentMessage = ref("Chargement...");
 		const imgFolder = ref("")
 		const currentSituationId = ref(0);
 
@@ -72,10 +70,8 @@ export default {
 		onMounted(() => {
 			try {
 				imgFolder.value = jsonData.imagesFolder;
-				currentMessage.value = "Bienvenue dans cette room !";
 			} catch (err) {
 				console.error("Erreur lors de la manipulation des données:", err);
-				currentMessage.value = "Erreur lors de la manipulation des données.";
 			}
 		});
 
@@ -113,7 +109,6 @@ export default {
 			imgFolder,
 			currentRoom: currentRoom(paramId),
 			roomAnswers,
-			currentMessage,
 			currentSituation,
 			hasNoMoreSituation,
 			showDialog,
